@@ -1,5 +1,4 @@
 $(document).ready(function(){
-    
   $('.sidenav').sidenav();
 });
 
@@ -43,6 +42,7 @@ function addChof(event) {
   if(validar()){
     var chof = getFormData();
     choferes_ref.child(chof.codigo).set(chof);
+    subirFoto($('#ci').val().toUpperCase());
     $('form input').val('');
     Materialize.updateTextFields();
   }
@@ -181,6 +181,16 @@ function salir(){
      console.log(error.code);
      console.log(error.message);
   });
+}
+
+function subirFoto(ci){
+  var storageRef = firebase.storage().ref();
+  var fotografia = storageRef.child('choferes/' + ci + '.jpg');
+
+  var file = document.getElementById("fotografia").files[0];
+  fotografia.put(file).then(function(snapshot){
+    console.log("Subida correctamente");
+  })
 }
 
 firebase.auth().onAuthStateChanged(function(user) {
